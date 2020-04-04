@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -78,10 +81,19 @@ public class MainActivity extends AppCompatActivity {
             }
             textView.setText(file.getName());
             holder.view.setOnClickListener(btn -> {
+                if (file.isFile()){
+                    Toast.makeText(getApplicationContext(),file.getName(),Toast.LENGTH_SHORT).show();
+                    playMedia(Uri.fromFile(file));
+                }
                 refreshList(path);
                 tree.add(path);
                 count++;
             });
+        }
+
+        public void playMedia(Uri file) {
+            Intent intent = new Intent(Intent.ACTION_VIEW,file);
+                startActivity(intent);
         }
 
         public void previousButton() {
