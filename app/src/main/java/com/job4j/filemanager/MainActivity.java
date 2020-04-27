@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(file.getName());
             holder.view.setOnClickListener(btn -> {
                 if (file.isFile()){
-                    Toast.makeText(getApplicationContext(),file.getName(),Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),file.getName(),Toast.LENGTH_SHORT).show();
                     playMedia(Uri.fromFile(file));
                 }
                 refreshList(path);
@@ -92,8 +94,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void playMedia(Uri file) {
-            Intent intent = new Intent(Intent.ACTION_VIEW,file);
-                startActivity(intent);
+            Intent intent = new Intent();
+            intent.setAction(android.content.Intent.ACTION_VIEW);
+            intent.setDataAndType(file, "audio/*");
+            startActivity(intent);
         }
 
         public void previousButton() {
